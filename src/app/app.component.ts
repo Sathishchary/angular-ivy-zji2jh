@@ -22,22 +22,21 @@ export class AppComponent implements OnInit {
   modifyCode(arr) {
     let value: any;
     for (let i = 0; i < arr.length; i++) {
-      if (arr[i].start < arr[i].end) {
-        let getValue = arr.filter(item => item.start < arr[i].end);
-        if (getValue.length > 1) {
-          value = getValue.reduce((prev, current) => {
-            if (+current.start > +prev.start) {
-              return current;
-            } else {
-              return prev;
-            }
-          });
-        } else {
-          value = getValue;
-        }
+      let getValue = arr.filter(item => item.start < arr[i].end);
+      if (getValue.length > 1) {
+        value = getValue.reduce((prev, current) => {
+          if (+current.start > +prev.start) {
+            return current;
+          } else {
+            return prev;
+          }
+        });
+        console.log(value, 1);
+      } else {
+        value = getValue;
         console.log(value);
-        this.setValues(arr[i].start, value.start, arr[i].price);
       }
+      this.setValues(arr[i].start, value.start, arr[i].price);
     }
   }
   setValues(start, end, price) {
