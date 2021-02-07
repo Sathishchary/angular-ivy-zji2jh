@@ -22,24 +22,46 @@ export class AppComponent implements OnInit {
   modifyCode(arr) {
     let value: any;
     for (let i = 0; i < arr.length; i++) {
-      let getValue = arr.filter(item => item.start < arr[i].end);
-      if (getValue.length > 1) {
-        value = getValue.reduce((prev, current) => {
-          if (+current.start > +prev.start) {
-            return current;
+      let item = arr[i];
+      let storeValue = { start: 0, end: 0, price: 0 };
+      for (let j = 0; j < arr.length; j++) {
+        if (item !== arr[j]) {
+          let allNums = this.getNumberValue(arr[j].start, arr[j].end);
+          if (allNums.includes(item.start)) {
+            if (item.price > arr[j].price) {
+              storeValue.start = arr[j].end;
+            } else {
+              storeValue.end = item.end;
+            }
           } else {
-            return prev;
+            storeValue.start = item.start;
           }
-        });
-        console.log(value, 1);
-      } else {
-        value = getValue;
-        console.log(value);
+          if (allNums.includes(item.end)) {
+            if (item.price > arr[j].price) {
+              storeValue.end = arr[j].start;
+            } else {
+              storeValue.end = item.end;
+            }
+          } else {
+            if (storeValue.end === 0) {
+              storeValue.end = item.end;
+            }
+          }
+          storeValue.price = item.price;
+        }
       }
-      this.setValues(arr[i].start, value.start, arr[i].price);
+      this.setValues(storeValue.start, storeValue.end, storeValue.price);
     }
   }
   setValues(start, end, price) {
     return this.updatedArray.push({ start: start, end: end, price: price });
+  }
+
+  getNumberValue(start, end) {
+    let value = [];
+    for (let i = start; i <= end; i++) {
+      value.push(i);
+    }
+    return value;
   }
 }
