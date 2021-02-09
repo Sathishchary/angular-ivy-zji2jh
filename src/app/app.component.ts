@@ -10,17 +10,19 @@ export class AppComponent implements OnInit {
   updatedArray: any = [];
   inputArray = [
     { start: 0, end: 4, price: 5 },
+    { start: 1, end: 3, price: 2 },
     { start: 2, end: 8, price: 3 },
     { start: 7, end: 11, price: 10 }
   ];
   /// expected output [{0, 2, 5 }, { 2, 8, 3}, {8, 11, 10}]
+
+  /// expected output [{0, 1, 5 }, {1, 3, 2} { 3, 8, 3}, {8, 11, 10}]
   constructor() {}
   ngOnInit() {
     this.modifyCode(this.inputArray);
   }
 
   modifyCode(arr) {
-    let value: any;
     for (let i = 0; i < arr.length; i++) {
       let item = arr[i];
       let storeValue = { start: 0, end: 0, price: 0 };
